@@ -1,0 +1,48 @@
+# Perimeter ring only — no interior grid. Compare against stitch-grid.toml.
+net = "GND"
+group_name = "via-stitch:GND-edge"
+
+[connect]
+# "auto" = every copper layer that actually has a zone on `net`.
+# Or list them explicitly: layers = ["In2.Cu", "B.Cu"]
+layers = "auto"
+
+[via]
+diameter_mm = 0.508
+drill_mm = 0.3048
+# keep | remove | remove_except_ends | ends_only
+unconnected_layer_removal = "remove_except_ends"
+
+[traversal]
+# What to do on copper layers the via passes through but does not connect to.
+# Foreign tracks and pads always block placement regardless of this setting.
+default = "allow"
+
+[traversal.layers]
+"In3.Cu" = "allow"   # vias pass through the 3V3 plane; it voids around them
+
+[clearance]
+copper_mm = 0.2
+drill_to_drill_mm = 0.5
+
+[grid]
+enabled = false
+x_spacing_mm = 2.54
+y_spacing_mm = 2.54
+origin_x_mm = 0.0
+origin_y_mm = 0.0
+# Hold the interior grid back from the edge so it does not crowd the
+# perimeter ring. 0 disables. Measured from `edge.reference` unless
+# `edge_reference` is set here.
+edge_distance_mm = 3.0
+# edge_reference = "board"
+
+[edge]
+enabled = true
+reference = "board"   # board outline (Edge.Cuts), not the zone boundary
+distance_mm = 1.5
+spacing_mm = 3.0
+
+[search]
+radius_mm = 1.0
+min_spacing_mm = 2.0
